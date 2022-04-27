@@ -1,8 +1,9 @@
+
 #include <stdio.h>
 #include "array/array.h"
 
 
 int main() {
-    printf("Hello, World!\n");
+    array_test_all();
     return 0;
 }

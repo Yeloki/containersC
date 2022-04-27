@@ -4,7 +4,7 @@
 
 #ifndef CONTAINERS_ARRAY_H
 #define CONTAINERS_ARRAY_H
-
+#define DEBUG
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../CException.h"
@@ -15,36 +15,36 @@ enum ERRORS {
 };
 
 
-typedef double element;
+typedef double array_el;
 
 typedef struct {
     size_t _min_capacity;
     size_t size;
     size_t capacity;
-    element *data;
+    array_el *data;
 } array;
 
 void array_init(array *);
 
 void array_resize(array *, size_t);
 
-void array_push_back(array *, element);
+void array_push_back(array *, array_el);
 
 void array_destroy(array *);
 
-element *array_data(array *);
+array_el *array_data(array *);
 
-element array_at(array *, size_t);
+array_el array_at(array *, size_t);
 
-element *array_get(array *, size_t);
+array_el *array_get(array *, size_t);
 
-element array_front(array *);
+array_el array_front(array *);
 
-element array_back(array *);
+array_el array_back(array *);
 
-element *array_begin(array *);
+array_el *array_begin(array *);
 
-element *array_end(array *);
+array_el *array_end(array *);
 
 bool array_empty(array *);
 
@@ -54,13 +54,15 @@ size_t array_capacity(array *);
 
 void array_clear(array *);
 
-element *array_insert(array *, size_t, element);
+array_el *array_insert(array *, size_t, array_el);
 
-void array_erase(array *, element);
+void array_erase(array *, array_el);
 
-element pop_back(array *);
+array_el pop_back(array *);
 
 void array_shrink_to_fit(array *);
 
-
+#ifdef DEBUG
+void array_test_all();
+#endif
 #endif //CONTAINERS_ARRAY_H
