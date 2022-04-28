@@ -142,12 +142,11 @@ void array_test_all() {
         /// test push_back, resize and at
         array array1;
         array_init(&array1);
-        for (double el = 0; el < 100; el += 1)
-            array_push_back(&array1, el);
+        for (size_t el = 0; el < 100; ++el)
+            array_push_back(&array1, (double) el);
         assert(array_size(&array1) == 100);
-        double el = 0;
-        for (int i = 0; i < 100; ++i, el += 1) {
-            assert(el == array_at(&array1, i));
+        for (int i = 0; i < 100; ++i) {
+            assert((double) i == array_at(&array1, i));
         }
         assert(array_capacity(&array1) == 128);
         array_destroy(&array1);

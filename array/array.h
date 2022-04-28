@@ -5,6 +5,7 @@
 #ifndef CONTAINERS_ARRAY_H
 #define CONTAINERS_ARRAY_H
 #define DEBUG
+
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../CException.h"
@@ -64,6 +65,9 @@ array_el pop_back(array *);
 void array_shrink_to_fit(array *);
 
 #ifdef DEBUG
+
 void array_test_all();
+
 #endif
+
 #endif //CONTAINERS_ARRAY_H
