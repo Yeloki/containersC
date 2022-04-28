@@ -8,7 +8,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../exception.h"
+#include "../exception/exception.h"
 
 #define ARRAY_INDEX_OUT_OF_RANGE  \
   ((struct SxTraceEntry) {300, 0, __FILE__, __LINE__, "\0", NULL})
