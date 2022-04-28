@@ -10,13 +10,17 @@ void array_init(array *arr) {
     arr->size = 0;
     arr->capacity = 2;
     arr->_min_capacity = 2;
-    arr->data = malloc(arr->capacity * sizeof (array_el));
+    arr->data = malloc(arr->capacity * sizeof(array_el));
+    if (arr->data == NULL)
+        Throw(ARRAY_MEMORY_ALLOCATION_ERROR);
 }
 
 void array_resize(array *arr, size_t n_size) {
     arr->data = realloc(arr->data, n_size * sizeof(array_el));
     if (arr->data == NULL)
         Throw(ARRAY_MEMORY_ALLOCATION_ERROR);
+    for (size_t i = arr->size; i < n_size; ++i)
+        arr->data[i] = 0;
     arr->capacity = n_size;
 }
 
@@ -97,6 +101,7 @@ array_el *array_insert(array *arr, size_t index, array_el el) {
         arr->data[i + 1] = prev;
         prev = temp;
     }
+    ++arr->size;
     arr->data[index] = el;
     return arr->data + index;
 }
@@ -109,11 +114,14 @@ void array_erase(array *arr, array_el el) {
             temp[n_size++] = arr->data[i];
     free(arr->data);
     arr->data = temp;
+    arr->size = n_size;
     if (arr->size < arr->capacity / 2)
         array_resize(arr, arr->capacity / 2);
 }
 
 array_el pop_back(array *arr) {
+    if (arr->size == 0)
+        Throw(ARRAY_IS_EMPTY);
     array_el el = arr->data[--arr->size];
     if (arr->size < arr->capacity / 2)
         array_resize(arr, arr->capacity / 2);
@@ -121,13 +129,17 @@ array_el pop_back(array *arr) {
 }
 
 void array_shrink_to_fit(array *arr) {
-    array_resize(arr, arr->size);
+    if (arr->size <= arr->_min_capacity)
+        array_resize(arr, arr->_min_capacity);
+    else
+        array_resize(arr, arr->size);
 }
 
 #ifdef DEBUG
 
 void array_test_all() {
     {
+        /// test push_back, resize and at
         array array1;
         array_init(&array1);
         for (double el = 0; el < 100; el += 1)
@@ -137,6 +149,89 @@ void array_test_all() {
         for (int i = 0; i < 100; ++i, el += 1) {
             assert(el == array_at(&array1, i));
         }
+        assert(array_capacity(&array1) == 128);
+        array_destroy(&array1);
+    }
+    {
+        /// test throw index error
+        array array1;
+        array_init(&array1);
+        array_resize(&array1, 64);
+        bool flag = 0;
+        CEXCEPTION_T e;
+        Try {
+                    array_get(&array1, 64);
+                } Catch(e) {
+            flag = e == ARRAY_INDEX_OUT_OF_RANGE;
+        }
+        assert(flag);
+        array_destroy(&array1);
+    }
+    {
+        /// test throw memory allocation error
+        array array1;
+        array_init(&array1);
+        array_resize(&array1, 64);
+        bool flag = 0;
+        CEXCEPTION_T e;
+        Try {
+                    array_resize(&array1, (size_t) 1e18);
+                } Catch(e) {
+            flag = e == ARRAY_MEMORY_ALLOCATION_ERROR;
+        }
+        assert(flag);
+        array_destroy(&array1);
+    }
+    {
+        /// test front, back, get, empty & clear
+        array array1;
+        array_init(&array1);
+        for (size_t i = 50; i < 100; ++i)
+            array_push_back(&array1, (double) i);
+        assert(array_front(&array1) == 50);
+        assert(array_back(&array1) == 99);
+        assert(*array_get(&array1, 22) == array_at(&array1, 22));
+        assert(!array_empty(&array1));
+        array_clear(&array1);
+        assert(array_empty(&array1));
+    }
+    {
+        /// test data, shrink_to_fit, begin & end
+        array array1;
+        array_init(&array1);
+        for (size_t i = 0; i < 100; ++i)
+            array_push_back(&array1, (double) i);
+        assert(array_data(&array1) == array1.data);
+        array_shrink_to_fit(&array1);
+        assert(array1.capacity == array1.size);
+        assert(array_begin(&array1) == array1.data);
+        assert(array_end(&array1) == array1.data + 100);
+        array_destroy(&array1);
+    }
+    {
+        /// test insert
+        array array1;
+        array_init(&array1);
+        for (size_t i = 0; i < 100; ++i)
+            array_push_back(&array1, (double) i);
+        array_insert(&array1, 20, 104);
+        assert(array1.size == 101);
+        assert(*array_get(&array1, 20) == 104);
+        array_destroy(&array1);
+    }
+    {
+        /// test erase & pop_back
+        array array1;
+        array_init(&array1);
+        for (size_t i = 0; i < 100; ++i)
+            array_push_back(&array1, (double) i);
+        for (size_t i = 1; i < 100; i += 5)
+            array_insert(&array1, i, 20);
+        array_erase(&array1, 20);
+        assert(array1.size == 99);
+        assert(pop_back(&array1) == 99);
+        assert(array1.size == 98);
+        array_destroy(&array1);
     }
 }
 
