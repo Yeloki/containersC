@@ -12,13 +12,13 @@ void array_init(array *arr) {
     arr->_min_capacity = 2;
     arr->data = malloc(arr->capacity * sizeof(array_el));
     if (arr->data == NULL)
-        Throw(ARRAY_MEMORY_ALLOCATION_ERROR);
+        throw(ARRAY_MEMORY_ALLOCATION_ERROR);
 }
 
 void array_resize(array *arr, size_t n_size) {
     arr->data = realloc(arr->data, n_size * sizeof(array_el));
     if (arr->data == NULL)
-        Throw(ARRAY_MEMORY_ALLOCATION_ERROR);
+        throw(ARRAY_MEMORY_ALLOCATION_ERROR);
     for (size_t i = arr->size; i < n_size; ++i)
         arr->data[i] = 0;
     arr->capacity = n_size;
@@ -43,13 +43,13 @@ array_el *array_data(array *arr) {
 
 array_el array_at(array *arr, size_t index) {
     if (index >= arr->size)
-        Throw(ARRAY_INDEX_OUT_OF_RANGE);
+        throw(ARRAY_INDEX_OUT_OF_RANGE);
     return arr->data[index];
 }
 
 array_el *array_get(array *arr, size_t index) {
     if (index >= arr->size)
-        Throw(ARRAY_INDEX_OUT_OF_RANGE);
+        throw(ARRAY_INDEX_OUT_OF_RANGE);
     return &(arr->data[index]);
 }
 
@@ -89,8 +89,8 @@ void array_clear(array *arr) {
 }
 
 array_el *array_insert(array *arr, size_t index, array_el el) {
-    if (index <= arr->size)
-        Throw(ARRAY_INDEX_OUT_OF_RANGE);
+    if (index >= arr->size)
+        throw(ARRAY_INDEX_OUT_OF_RANGE);
     if (arr->size == arr->capacity)
         array_resize(arr, arr->capacity * 2);
 
@@ -121,7 +121,7 @@ void array_erase(array *arr, array_el el) {
 
 array_el pop_back(array *arr) {
     if (arr->size == 0)
-        Throw(ARRAY_IS_EMPTY);
+        throw(ARRAY_IS_EMPTY);
     array_el el = arr->data[--arr->size];
     if (arr->size < arr->capacity / 2)
         array_resize(arr, arr->capacity / 2);
@@ -157,12 +157,12 @@ void array_test_all() {
         array_init(&array1);
         array_resize(&array1, 64);
         bool flag = 0;
-        CEXCEPTION_T e;
-        Try {
-                    array_get(&array1, 64);
-                } Catch(e) {
-            flag = e == ARRAY_INDEX_OUT_OF_RANGE;
+        try {
+            array_get(&array1, 64);
+        } catch(ARRAY_INDEX_OUT_OF_RANGE.code) {
+            flag = true;
         }
+        endtry
         assert(flag);
         array_destroy(&array1);
     }
@@ -172,12 +172,12 @@ void array_test_all() {
         array_init(&array1);
         array_resize(&array1, 64);
         bool flag = 0;
-        CEXCEPTION_T e;
-        Try {
-                    array_resize(&array1, (size_t) 1e18);
-                } Catch(e) {
-            flag = e == ARRAY_MEMORY_ALLOCATION_ERROR;
+        try {
+            array_resize(&array1, (size_t) 1e18);
+        } catch(ARRAY_MEMORY_ALLOCATION_ERROR.code) {
+            flag = true;
         }
+        endtry
         assert(flag);
         array_destroy(&array1);
     }
@@ -233,5 +233,6 @@ void array_test_all() {
         array_destroy(&array1);
     }
 }
+
 
 #endif

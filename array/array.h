@@ -8,13 +8,14 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../CException.h"
+#include "../exception.h"
 
-enum ERRORS {
-    ARRAY_MEMORY_ALLOCATION_ERROR,
-    ARRAY_INDEX_OUT_OF_RANGE,
-    ARRAY_IS_EMPTY
-};
+#define ARRAY_INDEX_OUT_OF_RANGE  \
+  ((struct SxTraceEntry) {300, 0, __FILE__, __LINE__, "\0", NULL})
+#define ARRAY_MEMORY_ALLOCATION_ERROR  \
+  ((struct SxTraceEntry) {301, 0, __FILE__, __LINE__, "\0", NULL})
+#define ARRAY_IS_EMPTY  \
+  ((struct SxTraceEntry) {302, 0, __FILE__, __LINE__, "\0", NULL})
 
 
 typedef double array_el;
