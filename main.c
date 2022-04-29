@@ -3,6 +3,6 @@
 
 
 int main() {
-    array_test_all();
+    arrayTestAll();
     return 0;
 }

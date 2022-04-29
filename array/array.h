@@ -27,47 +27,47 @@ typedef struct {
     array_el *data;
 } array;
 
-void array_init(array *);
+void arrayInit(array *);
 
-void array_resize(array *, size_t);
+void arrayResize(array *, size_t);
 
-void array_push_back(array *, array_el);
+void arrayPushBack(array *, array_el);
 
-void array_destroy(array *);
+void arrayDestroy(array *);
 
-array_el *array_data(array *);
+array_el *arrayData(array *);
 
-array_el array_at(array *, size_t);
+array_el arrayAt(array *, size_t);
 
-array_el *array_get(array *, size_t);
+array_el *arrayGet(array *, size_t);
 
-array_el array_front(array *);
+array_el arrayFront(array *);
 
-array_el array_back(array *);
+array_el arrayBack(array *);
 
-array_el *array_begin(array *);
+array_el *arrayBegin(array *);
 
-array_el *array_end(array *);
+array_el *arrayEnd(array *);
 
-bool array_empty(array *);
+bool arrayEmpty(array *);
 
-size_t array_size(array *);
+size_t arraySize(array *);
 
-size_t array_capacity(array *);
+size_t arrayCapacity(array *);
 
-void array_clear(array *);
+void arrayClear(array *);
 
-array_el *array_insert(array *, size_t, array_el);
+array_el *arrayInsert(array *, size_t, array_el);
 
-void array_erase(array *, array_el);
+void arrayErase(array *, array_el);
 
-array_el pop_back(array *);
+array_el arrayPopBack(array *);
 
-void array_shrink_to_fit(array *);
+void arrayShrinkToFit(array *);
 
 #ifdef DEBUG
 
-void array_test_all();
+void arrayTestAll();
 
 #endif
 
