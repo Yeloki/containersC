@@ -62,7 +62,7 @@ array_el array_back(array *arr) {
 }
 
 array_el *array_begin(array *arr) {
-    return &(arr->data[0]);
+    return arr->data;
 }
 
 array_el *array_end(array *arr) {
