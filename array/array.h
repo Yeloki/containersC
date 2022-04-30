@@ -16,7 +16,8 @@
   ((struct SxTraceEntry) {301, 0, __FILE__, __LINE__, "\0", NULL})
 #define ARRAY_IS_EMPTY  \
   ((struct SxTraceEntry) {302, 0, __FILE__, __LINE__, "\0", NULL})
-
+#define ARRAY_ITERATOR_MEMORY_ALLOCATION_ERROR  \
+  ((struct SxTraceEntry) {303, 0, __FILE__, __LINE__, "\0", NULL})
 
 typedef double array_el;
 
@@ -45,10 +46,6 @@ array_el arrayFront(array *);
 
 array_el arrayBack(array *);
 
-array_el *arrayBegin(array *);
-
-array_el *arrayEnd(array *);
-
 bool arrayEmpty(array *);
 
 size_t arraySize(array *);
@@ -64,6 +61,43 @@ void arrayErase(array *, array_el);
 array_el arrayPopBack(array *);
 
 void arrayShrinkToFit(array *);
+
+
+typedef struct {
+    array *arr;
+    array_el *curr;
+} array_iter;
+
+array_iter *arrayIterInIt(array *, array_el *);
+
+void arrayIterDestroy(array_iter *);
+
+array_el *arrayIterNext(array_iter *);
+
+array_el *arrayIterCurr(array_iter *);
+
+array_el *arrayIterPrev(array_iter *);
+
+array_el *arrayIterAt(size_t);
+
+array_el *arrayIterGoTo(size_t);
+
+bool arrayIterIsEqual(array_iter *, array_iter *);
+
+bool arrayIterIsNotEqual(array_iter *, array_iter *);
+
+bool arrayIterIsMore(array_iter *, array_iter *);
+
+bool arrayIterIsEqOrMore(array_iter *, array_iter *);
+
+bool arrayIterIsLess(array_iter *, array_iter *);
+
+bool arrayIterIsEqOrLess(array_iter *, array_iter *);
+
+// iterator functions for array
+array_iter *arrayBegin(array *);
+
+array_iter *arrayEnd(array *);
 
 #ifdef DEBUG
 

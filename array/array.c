@@ -61,12 +61,12 @@ array_el arrayBack(array *arr) {
     return arr->data[arr->size - 1];
 }
 
-array_el *arrayBegin(array *arr) {
-    return arr->data;
+array_iter *arrayBegin(array *arr) {
+    return arrayIterInIt(arr, arr->data);
 }
 
-array_el *arrayEnd(array *arr) {
-    return arr->data + arr->size;
+array_iter *arrayEnd(array *arr) {
+    return arrayIterInIt(arr, arr->data + arr->size);
 }
 
 bool arrayEmpty(array *arr) {
@@ -195,7 +195,7 @@ void arrayTestAll() {
         assert(arrayEmpty(&array1));
     }
     {
-        /// test data, shrink_to_fit, begin & end
+        /// test data, shrink_to_fit
         array array1;
         arrayInit(&array1);
         for (size_t i = 0; i < 100; ++i)
@@ -203,8 +203,6 @@ void arrayTestAll() {
         assert(arrayData(&array1) == array1.data);
         arrayShrinkToFit(&array1);
         assert(array1.capacity == array1.size);
-        assert(arrayBegin(&array1) == array1.data);
-        assert(arrayEnd(&array1) == array1.data + 100);
         arrayDestroy(&array1);
     }
     {
@@ -233,6 +231,5 @@ void arrayTestAll() {
         arrayDestroy(&array1);
     }
 }
-
 
 #endif
