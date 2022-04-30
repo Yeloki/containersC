@@ -135,6 +135,82 @@ void arrayShrinkToFit(array *arr) {
         arrayResize(arr, arr->size);
 }
 
+//------------------------------ start iterator definitions
+array_iter *arrayIterInIt(array *arr, array_el *el) {
+    array_iter *iter = malloc(sizeof(array_iter));
+    if (iter == NULL)
+        throw(ARRAY_ITERATOR_MEMORY_ALLOCATION_ERROR);
+    iter->arr = arr;
+    iter->curr = el;
+    return iter;
+}
+
+void arrayIterDestroy(array_iter *iter) {
+    free(iter);
+}
+
+
+array_el *arrayIterNext(array_iter *iter) {
+    if (arrayIterIsEqual(iter, arrayEnd(iter->arr)))
+        throw(ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY);
+    return ++iter->curr;
+}
+
+array_el *arrayIterCurr(array_iter *iter) {
+    return iter->curr;
+}
+
+array_el *arrayIterPrev(array_iter *iter) {
+    if (arrayIterIsEqual(arrayBegin(iter->arr), iter))
+        throw(ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY);
+    return --iter->curr;
+}
+
+array_el *arrayIterAt(array_iter *iter, size_t index) {
+    if (index >= arraySize(iter->arr))
+        throw(ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY);
+    return arrayGet(iter->arr, index);
+}
+
+array_el *arrayIterGoTo(array_iter *iter, size_t index) {
+    if (index >= arraySize(iter->arr))
+        throw(ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY);
+    iter->curr = arrayGet(iter->arr, index);
+    return iter->curr;
+}
+
+bool arrayIterIsEqual(array_iter *first, array_iter *second) {
+    return (first->curr == second->curr) && (first->arr == second->arr);
+}
+
+bool arrayIterIsNotEqual(array_iter *first, array_iter *second) {
+    return !arrayIterIsEqual(first, second);
+}
+
+bool arrayIterIsMore(array_iter *first, array_iter *second) {
+    if (first->arr != second->arr)
+        throw(ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS);
+    return first->curr > second->curr;
+}
+
+bool arrayIterIsEqOrMore(array_iter *first, array_iter *second) {
+    if (first->arr != second->arr)
+        throw(ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS);
+    return first->curr >= second->curr;
+}
+
+bool arrayIterIsLess(array_iter *first, array_iter *second) {
+    if (first->arr != second->arr)
+        throw(ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS);
+    return first->curr < second->curr;
+}
+
+bool arrayIterIsEqOrLess(array_iter *first, array_iter *second) {
+    if (first->arr != second->arr)
+        throw(ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS);
+    return first->curr <= second->curr;
+}
+
 #ifdef DEBUG
 
 void arrayTestAll() {

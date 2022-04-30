@@ -18,7 +18,10 @@
   ((struct SxTraceEntry) {302, 0, __FILE__, __LINE__, "\0", NULL})
 #define ARRAY_ITERATOR_MEMORY_ALLOCATION_ERROR  \
   ((struct SxTraceEntry) {303, 0, __FILE__, __LINE__, "\0", NULL})
-
+#define ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY  \
+  ((struct SxTraceEntry) {304, 0, __FILE__, __LINE__, "\0", NULL})
+#define ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS  \
+  ((struct SxTraceEntry) {305, 0, __FILE__, __LINE__, "\0", NULL})
 typedef double array_el;
 
 typedef struct {
@@ -78,9 +81,9 @@ array_el *arrayIterCurr(array_iter *);
 
 array_el *arrayIterPrev(array_iter *);
 
-array_el *arrayIterAt(size_t);
+array_el *arrayIterAt(array_iter *, size_t);
 
-array_el *arrayIterGoTo(size_t);
+array_el *arrayIterGoTo(array_iter *, size_t);
 
 bool arrayIterIsEqual(array_iter *, array_iter *);
 
