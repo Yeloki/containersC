@@ -3,7 +3,7 @@ project(containers C)
 
 set(CMAKE_C_STANDARD 17)
 
-set(SRC_FILES array/array.c array/array.h)
+set(SRC_FILES array/array.c array/array.h array/tools.h)
 set(SRC_FILES ${SRC_FILES} exception/exception.c exception/exception.h)
 
 add_executable(containers main.c ${SRC_FILES})
