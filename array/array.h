@@ -8,20 +8,9 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
-#include "../exception/exception.h"
+#include "../exception/exceptions_list.h"
 
-#define ARRAY_INDEX_OUT_OF_RANGE  \
-  ((struct SxTraceEntry) {300, 0, __FILE__, __LINE__, "\0", NULL})
-#define ARRAY_MEMORY_ALLOCATION_ERROR  \
-  ((struct SxTraceEntry) {301, 0, __FILE__, __LINE__, "\0", NULL})
-#define ARRAY_IS_EMPTY  \
-  ((struct SxTraceEntry) {302, 0, __FILE__, __LINE__, "\0", NULL})
-#define ARRAY_ITERATOR_MEMORY_ALLOCATION_ERROR  \
-  ((struct SxTraceEntry) {303, 0, __FILE__, __LINE__, "\0", NULL})
-#define ARRAY_ITERATOR_ITERATOR_OUT_OF_ARRAY  \
-  ((struct SxTraceEntry) {304, 0, __FILE__, __LINE__, "\0", NULL})
-#define ARRAY_ITERATOR_DIFFERENT_ARRAY_POINTERS  \
-  ((struct SxTraceEntry) {305, 0, __FILE__, __LINE__, "\0", NULL})
+
 typedef double array_el;
 
 typedef struct {
