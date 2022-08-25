@@ -10,17 +10,16 @@
 #include <stdbool.h>
 #include "../exception/exceptions_list.h"
 
-
-typedef double array_el;
+typedef void *array_el;
 
 typedef struct {
-    size_t _min_capacity;
-    size_t size;
-    size_t capacity;
-    array_el *data;
+  size_t _min_capacity;
+  size_t size;
+  size_t capacity;
+  array_el *data;
 } array;
 
-void arrayInit(array *);
+array *arrayInit();
 
 void arrayResize(array *, size_t);
 
@@ -54,10 +53,9 @@ array_el arrayPopBack(array *);
 
 void arrayShrinkToFit(array *);
 
-
 typedef struct {
-    array *arr;
-    array_el *curr;
+  array *arr;
+  array_el *curr;
 } array_iter;
 
 array_iter *arrayIterInIt(array *, array_el *);
@@ -96,5 +94,13 @@ array_iter *arrayEnd(array *);
 void arrayTestAll();
 
 #endif
+
+/// for char array
+
+void arrayPushBackChar(array *arr, char c);
+
+char arrayPopBackChar(array *arr);
+
+char arrayAtChar(array* arr, size_t index);
 
 #endif //CONTAINERS_ARRAY_H

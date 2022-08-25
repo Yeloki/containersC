@@ -8,7 +8,7 @@
 #include "../exception/exceptions_list.h"
 #include <stdbool.h>
 
-typedef double queue_val;
+typedef void* queue_val;
 
 typedef struct queue_node {
     struct queue_node *prev;

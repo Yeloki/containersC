@@ -7,5 +7,6 @@ set(SRC_FILES array/array.c array/array.h array/tools.h)
 set(SRC_FILES ${SRC_FILES} queue/queue.c queue/queue.h)
 set(SRC_FILES ${SRC_FILES} stack/stack.c stack/stack.h)
 set(SRC_FILES ${SRC_FILES} exception/exception.c exception/exception.h exception/exceptions_list.h)
+set(SRC_FILES ${SRC_FILES} rbtree/rbtree.h rbtree/rbtree.c)
 
 add_executable(containers main.c ${SRC_FILES})
